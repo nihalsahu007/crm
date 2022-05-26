@@ -1,0 +1,78 @@
+{% extends "newapp/base.html" %}
+{% load static %}
+{% block javascript %}
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script src="{% static 'js/reminder.js' %}"></script>
+{% endblock javascript %}
+{% block content %} 
+<p id="message"></p>
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Call time</th>
+				<th scope="col">Call later</th>
+				<th scope="col">Update</th>
+				<th scope="col">Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for reminder in reminders %}
+				<tr>
+					<th scope="row">{{reminder.id}}</th>
+						<td>{{reminder.customer}}</td>
+						<td>{{reminder.call_time}}</td>
+						<td>{{reminder.call_later}}</td>
+						{% if reminder.status == False %}
+						<td>
+							<a class="update" id="get-id1" data-id = "{{ reminder.id }}">
+								<button data-bs-toggle="modal" data-bs-target="#exampleModal" type="button" class="btn btn-primary"  >Update</button>
+							</a>
+						</td>
+						{% else %}
+							<td>
+								<h4 style="padding-left:5px;">Done</h4>
+							</td>
+						{% endif %}
+						{% if reminder.status == False %}
+							<td>
+								<div class="change_{{reminder.id}}">
+									<a class="done_button" id="get-id" data-id = "{{ reminder.id }}" >
+										<button type="button" class="btn btn-primary">Submit</button>
+									</a>
+								</div>
+							</td>
+						{% else %}
+							<td>
+								<h4 style="padding-left:5px;">Done</h4>
+							</td>
+						{% endif %}
+					</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+		  		<div class="modal-header" >
+					<h5 class="modal-title" id="exampleModalLabel">Update recode</h5>
+		  		</div>
+		  		<p id="message"></p>
+		  		<div class="modal-body" id="card-body">
+
+		  		</div>
+		  		<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" id="submit" class="btn btn-primary">Update</button>
+		  		</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
